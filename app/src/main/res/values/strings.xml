@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Weather App</string>
+    <string name="weather_data_unavailable">weather data unavailable</string>
+    <string name="format_temperature" translatable="false">%1.0f\u00B0</string>
+</resources>
