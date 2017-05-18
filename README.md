@@ -10,7 +10,7 @@ Clone the project and import it to Android Studio.
 During development I used latest stable version of Android Studio 2.3.2
 Please get an openweathermap.org API key and copy it to $HOME/.gradle/gradle.properties as follows:
 
-OpenWeatherMapApiKey="XXXX"__
+OpenWeatherMapApiKey="XXXX"
 
 Future Work
 ------------------------------------------------
