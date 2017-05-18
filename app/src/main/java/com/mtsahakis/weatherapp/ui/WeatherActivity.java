@@ -9,14 +9,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.mtsahakis.weatherapp.R;
-import com.mtsahakis.weatherapp.data.WeatherCallback;
 import com.mtsahakis.weatherapp.data.WeatherItem;
 import com.mtsahakis.weatherapp.data.WeatherRepository;
 import com.mtsahakis.weatherapp.databinding.ActivityWeatherBinding;
 
 import java.util.List;
 
-public class WeatherActivity extends AppCompatActivity implements WeatherContract.View, WeatherCallback {
+public class WeatherActivity extends AppCompatActivity implements WeatherContract.View {
 
     private ActivityWeatherBinding mBinding;
     private Handler mHandler;
@@ -34,7 +33,7 @@ public class WeatherActivity extends AppCompatActivity implements WeatherContrac
 
         getSupportActionBar().setElevation(0f);
 
-        WeatherRepository weatherRepository = new WeatherRepository(this);
+        WeatherRepository weatherRepository = new WeatherRepository();
         mWeatherPresenter = new WeatherPresenter(this, weatherRepository);
         mWeatherPresenter.init();
     }
@@ -46,33 +45,27 @@ public class WeatherActivity extends AppCompatActivity implements WeatherContrac
 
     @Override
     public void displayData(final List<WeatherItem> weatherItems) {
-        mBinding.progressBar.setVisibility(View.GONE);
-        WeatherAdapter weatherAdapter = new WeatherAdapter(weatherItems);
-        mBinding.recyclerView.setAdapter(weatherAdapter);
-    }
-
-    @Override
-    public void displayError() {
-        mBinding.progressBar.setVisibility(View.GONE);
-        mBinding.errorMessage.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void onDataLoaded(final List<WeatherItem> weatherItems) {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                mWeatherPresenter.setData(weatherItems);
+                // remove progress bar and error message
+                mBinding.errorMessage.setVisibility(View.GONE);
+                mBinding.progressBar.setVisibility(View.GONE);
+
+                // display data
+                WeatherAdapter weatherAdapter = new WeatherAdapter(weatherItems);
+                mBinding.recyclerView.setAdapter(weatherAdapter);
             }
         });
     }
 
     @Override
-    public void onDataFailed() {
+    public void displayError() {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                mWeatherPresenter.setError();
+                mBinding.progressBar.setVisibility(View.GONE);
+                mBinding.errorMessage.setVisibility(View.VISIBLE);
             }
         });
     }

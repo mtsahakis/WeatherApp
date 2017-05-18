@@ -23,7 +23,7 @@ public class WeatherRepository {
 
     private WeakReference<WeatherCallback> mWeatherCallbackReference;
 
-    public WeatherRepository(WeatherCallback weatherCallback) {
+    public void setWeatherCallback(WeatherCallback weatherCallback) {
         mWeatherCallbackReference = new WeakReference<>(weatherCallback);
     }
 
@@ -36,8 +36,8 @@ public class WeatherRepository {
             @Override
             public void onFailure(okhttp3.Call call, IOException e) {
                 Log.e(LOG_TAG, e.getMessage(), e);
-                WeatherCallback weatherCallback = mWeatherCallbackReference.get();
-                if (weatherCallback != null) {
+                if (mWeatherCallbackReference != null && mWeatherCallbackReference.get() != null) {
+                    WeatherCallback weatherCallback = mWeatherCallbackReference.get();
                     weatherCallback.onDataFailed();
                 }
             }
@@ -46,8 +46,8 @@ public class WeatherRepository {
             public void onResponse(okhttp3.Call call, okhttp3.Response response)
                     throws IOException {
                 String result = response.body().string();
-                WeatherCallback weatherCallback = mWeatherCallbackReference.get();
-                if (weatherCallback != null) {
+                if (mWeatherCallbackReference != null && mWeatherCallbackReference.get() != null) {
+                    WeatherCallback weatherCallback = mWeatherCallbackReference.get();
                     try {
                         List<WeatherItem> weatherItems = getWeatherDataFromJson(result);
                         weatherCallback.onDataLoaded(weatherItems);
