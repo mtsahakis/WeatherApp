@@ -9,8 +9,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.mtsahakis.weatherapp.R;
+import com.mtsahakis.weatherapp.data.Repository;
 import com.mtsahakis.weatherapp.data.WeatherItem;
-import com.mtsahakis.weatherapp.data.WeatherRepository;
 import com.mtsahakis.weatherapp.databinding.ActivityWeatherBinding;
 
 import java.util.List;
@@ -33,8 +33,8 @@ public class WeatherActivity extends AppCompatActivity implements WeatherContrac
 
         getSupportActionBar().setElevation(0f);
 
-        WeatherRepository weatherRepository = new WeatherRepository();
-        mWeatherPresenter = new WeatherPresenter(this, weatherRepository);
+        Repository repository = new Repository();
+        mWeatherPresenter = new WeatherPresenter(this, repository);
         mWeatherPresenter.init();
     }
 

@@ -17,14 +17,14 @@ import java.util.List;
 
 import okhttp3.OkHttpClient;
 
-public class WeatherRepository {
+public class Repository {
 
     private static final String LOG_TAG = "WeatherRepository";
 
-    private WeakReference<WeatherCallback> mWeatherCallbackReference;
+    private WeakReference<RepositoryCallback> mCallbackReference;
 
-    public void setWeatherCallback(WeatherCallback weatherCallback) {
-        mWeatherCallbackReference = new WeakReference<>(weatherCallback);
+    public void setWeatherCallback(RepositoryCallback repositoryCallback) {
+        mCallbackReference = new WeakReference<>(repositoryCallback);
     }
 
     public void makeRequest() {
@@ -36,9 +36,9 @@ public class WeatherRepository {
             @Override
             public void onFailure(okhttp3.Call call, IOException e) {
                 Log.e(LOG_TAG, e.getMessage(), e);
-                if (mWeatherCallbackReference != null && mWeatherCallbackReference.get() != null) {
-                    WeatherCallback weatherCallback = mWeatherCallbackReference.get();
-                    weatherCallback.onDataFailed();
+                if (mCallbackReference != null && mCallbackReference.get() != null) {
+                    RepositoryCallback repositoryCallback = mCallbackReference.get();
+                    repositoryCallback.onDataFailed();
                 }
             }
 
@@ -46,14 +46,14 @@ public class WeatherRepository {
             public void onResponse(okhttp3.Call call, okhttp3.Response response)
                     throws IOException {
                 String result = response.body().string();
-                if (mWeatherCallbackReference != null && mWeatherCallbackReference.get() != null) {
-                    WeatherCallback weatherCallback = mWeatherCallbackReference.get();
+                if (mCallbackReference != null && mCallbackReference.get() != null) {
+                    RepositoryCallback repositoryCallback = mCallbackReference.get();
                     try {
                         List<WeatherItem> weatherItems = getWeatherDataFromJson(result);
-                        weatherCallback.onDataLoaded(weatherItems);
+                        repositoryCallback.onDataLoaded(weatherItems);
                     } catch (JSONException e) {
                         Log.e(LOG_TAG, e.getMessage(), e);
-                        weatherCallback.onDataFailed();
+                        repositoryCallback.onDataFailed();
                     }
                 }
             }

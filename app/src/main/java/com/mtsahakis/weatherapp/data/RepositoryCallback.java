@@ -3,7 +3,7 @@ package com.mtsahakis.weatherapp.data;
 
 import java.util.List;
 
-public interface WeatherCallback {
+public interface RepositoryCallback {
 
     void onDataLoaded(List<WeatherItem> weatherItems);
 

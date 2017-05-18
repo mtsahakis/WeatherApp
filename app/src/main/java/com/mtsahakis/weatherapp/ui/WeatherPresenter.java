@@ -3,28 +3,28 @@ package com.mtsahakis.weatherapp.ui;
 
 import android.support.annotation.NonNull;
 
-import com.mtsahakis.weatherapp.data.WeatherCallback;
+import com.mtsahakis.weatherapp.data.Repository;
+import com.mtsahakis.weatherapp.data.RepositoryCallback;
 import com.mtsahakis.weatherapp.data.WeatherItem;
-import com.mtsahakis.weatherapp.data.WeatherRepository;
 
 import java.util.List;
 
-class WeatherPresenter implements WeatherContract.Presenter, WeatherCallback {
+class WeatherPresenter implements WeatherContract.Presenter, RepositoryCallback {
 
     private WeatherContract.View mView;
-    private WeatherRepository mWeatherRepository;
+    private Repository mRepository;
 
     WeatherPresenter(@NonNull WeatherContract.View view,
-                     @NonNull WeatherRepository weatherRepository) {
+                     @NonNull Repository repository) {
         mView = view;
-        mWeatherRepository = weatherRepository;
+        mRepository = repository;
     }
 
     @Override
     public void init() {
         mView.initView();
-        mWeatherRepository.setWeatherCallback(this);
-        mWeatherRepository.makeRequest();
+        mRepository.setWeatherCallback(this);
+        mRepository.makeRequest();
     }
 
     @Override
