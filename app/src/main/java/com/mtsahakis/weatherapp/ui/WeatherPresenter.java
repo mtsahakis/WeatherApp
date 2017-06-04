@@ -9,13 +9,13 @@ import com.mtsahakis.weatherapp.data.WeatherItem;
 
 import java.util.List;
 
-class WeatherPresenter implements WeatherContract.Presenter, RepositoryCallback {
+public class WeatherPresenter implements WeatherContract.Presenter, RepositoryCallback {
 
     private WeatherContract.View mView;
     private Repository mRepository;
 
-    WeatherPresenter(@NonNull WeatherContract.View view,
-                     @NonNull Repository repository) {
+    public WeatherPresenter(@NonNull WeatherContract.View view,
+                            @NonNull Repository repository) {
         mView = view;
         mRepository = repository;
     }
@@ -23,8 +23,7 @@ class WeatherPresenter implements WeatherContract.Presenter, RepositoryCallback 
     @Override
     public void init() {
         mView.initView();
-        mRepository.setWeatherCallback(this);
-        mRepository.makeRequest();
+        mRepository.makeRequest(this);
     }
 
     @Override

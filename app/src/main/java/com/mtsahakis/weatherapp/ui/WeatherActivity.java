@@ -27,11 +27,11 @@ public class WeatherActivity extends AppCompatActivity implements WeatherContrac
 
         mHandler = new Handler();
 
+        getSupportActionBar().setElevation(0f);
+
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_weather);
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mBinding.recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-
-        getSupportActionBar().setElevation(0f);
 
         Repository repository = new Repository();
         mWeatherPresenter = new WeatherPresenter(this, repository);

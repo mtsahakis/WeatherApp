@@ -21,13 +21,8 @@ public class Repository {
 
     private static final String LOG_TAG = "WeatherRepository";
 
-    private WeakReference<RepositoryCallback> mCallbackReference;
-
-    public void setWeatherCallback(RepositoryCallback repositoryCallback) {
-        mCallbackReference = new WeakReference<>(repositoryCallback);
-    }
-
-    public void makeRequest() {
+    public void makeRequest(RepositoryCallback repositoryCallback) {
+        final WeakReference<RepositoryCallback> callbackReference = new WeakReference<>(repositoryCallback);
         OkHttpClient client = new OkHttpClient();
         String url = constructURL();
         okhttp3.Request request = new okhttp3.Request.Builder().url(url).build();
@@ -36,8 +31,8 @@ public class Repository {
             @Override
             public void onFailure(okhttp3.Call call, IOException e) {
                 Log.e(LOG_TAG, e.getMessage(), e);
-                if (mCallbackReference != null && mCallbackReference.get() != null) {
-                    RepositoryCallback repositoryCallback = mCallbackReference.get();
+                RepositoryCallback repositoryCallback = callbackReference.get();
+                if (repositoryCallback != null) {
                     repositoryCallback.onDataFailed();
                 }
             }
@@ -46,8 +41,8 @@ public class Repository {
             public void onResponse(okhttp3.Call call, okhttp3.Response response)
                     throws IOException {
                 String result = response.body().string();
-                if (mCallbackReference != null && mCallbackReference.get() != null) {
-                    RepositoryCallback repositoryCallback = mCallbackReference.get();
+                RepositoryCallback repositoryCallback = callbackReference.get();
+                if (repositoryCallback != null) {
                     try {
                         List<WeatherItem> weatherItems = getWeatherDataFromJson(result);
                         repositoryCallback.onDataLoaded(weatherItems);

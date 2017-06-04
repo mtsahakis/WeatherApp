@@ -5,7 +5,7 @@ import com.mtsahakis.weatherapp.data.WeatherItem;
 
 import java.util.List;
 
-interface WeatherContract {
+public interface WeatherContract {
 
     interface View {
 
