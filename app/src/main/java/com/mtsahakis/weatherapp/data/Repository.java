@@ -22,7 +22,8 @@ public class Repository {
     private static final String LOG_TAG = "WeatherRepository";
 
     public void makeRequest(RepositoryCallback repositoryCallback) {
-        final WeakReference<RepositoryCallback> callbackReference = new WeakReference<>(repositoryCallback);
+        final WeakReference<RepositoryCallback> callbackReference
+                = new WeakReference<>(repositoryCallback);
         OkHttpClient client = new OkHttpClient();
         String url = constructURL();
         okhttp3.Request request = new okhttp3.Request.Builder().url(url).build();
