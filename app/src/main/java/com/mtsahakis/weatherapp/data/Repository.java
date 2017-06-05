@@ -2,6 +2,7 @@ package com.mtsahakis.weatherapp.data;
 
 
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.mtsahakis.weatherapp.BuildConfig;
@@ -21,7 +22,7 @@ public class Repository {
 
     private static final String LOG_TAG = "WeatherRepository";
 
-    public void makeRequest(RepositoryCallback repositoryCallback) {
+    public void makeRequest(@NonNull RepositoryCallback repositoryCallback) {
         final WeakReference<RepositoryCallback> callbackReference
                 = new WeakReference<>(repositoryCallback);
         OkHttpClient client = new OkHttpClient();
